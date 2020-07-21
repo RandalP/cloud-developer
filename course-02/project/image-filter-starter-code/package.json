@@ -28,8 +28,10 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
     "express": "^4.17.1",
     "jimp": "^0.14.0",
-    "validate.js": "^0.13.1"
+    "jsonwebtoken": "^8.5.1",
+    "url-exists": "^1.0.3"
   }
 }
