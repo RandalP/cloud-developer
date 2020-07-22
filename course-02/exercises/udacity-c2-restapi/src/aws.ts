@@ -1,16 +1,18 @@
 import AWS = require('aws-sdk');
 import { config } from './config/config';
 
-const c = config.dev;
+const aws = config.aws;
 
 //Configure AWS
-var credentials = new AWS.SharedIniFileCredentials({profile: 'default'});
-AWS.config.credentials = credentials;
+if(aws.profile !== "DEPLOYED") {
+  var credentials = new AWS.SharedIniFileCredentials({profile: aws.profile});
+  AWS.config.credentials = credentials;
+}
 
 export const s3 = new AWS.S3({
   signatureVersion: 'v4',
-  region: c.aws_region,
-  params: {Bucket: c.aws_media_bucket}
+  region: aws.region,
+  params: {Bucket: aws.media_bucket}
 });
 
 
@@ -24,8 +26,8 @@ export function getGetSignedUrl( key: string ): string{
 
   const signedUrlExpireSeconds = 60 * 5
 
-    const url = s3.getSignedUrl('getObject', {
-        Bucket: c.aws_media_bucket,
+    const url: string = s3.getSignedUrl('getObject', {
+        Bucket: aws.media_bucket,
         Key: key,
         Expires: signedUrlExpireSeconds
       });
@@ -43,8 +45,8 @@ export function getPutSignedUrl( key: string ){
 
     const signedUrlExpireSeconds = 60 * 5
 
-    const url = s3.getSignedUrl('putObject', {
-      Bucket: c.aws_media_bucket,
+    const url:string  = s3.getSignedUrl('putObject', {
+      Bucket: aws.media_bucket,
       Key: key,
       Expires: signedUrlExpireSeconds
     });
