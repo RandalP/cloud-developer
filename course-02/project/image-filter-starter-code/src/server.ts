@@ -69,7 +69,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
         }
         else {
           let filteredPath = await filterImageFromURL(image_url);
-          res.sendFile(filteredPath, function () {
+          res.status(200).sendFile(filteredPath, function () {
             deleteLocalFiles([filteredPath]);
           });
         }
